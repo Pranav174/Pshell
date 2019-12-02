@@ -1,0 +1,21 @@
+To run:
+    $make
+    $./Pshell
+
+-> shell.c contains the main funtion with initializer like defining ~, user etc.
+-> Each ;-separated command is ran separately
+-> it uses takingInput.c to take_input (using readline to allow auto-tab completion) and calls the parse_and_execute from redirection.calls
+-> redirection.c breaks the commands separated by pipe & checks for input-output redirection to accordingly set the stdin and stdout of each command
+-> It then uses parseInput function to break down command into flags, arguments etc
+-> driver.c checks if the command is one of the builtins: 
+        ls, ll, la, cd , history, echo, pwd, clear, pinfo , setenv, unsetenv, jobs, kjob, fg, bg, overkill,  quit, cronjob, nightswatch
+-> the history.c ls.c builtins.c jobs.c (also maintains linked list to track bg processes) define the various builtins function
+-> if the command isn't a builtin, the shell.c checks for '&' and accordingly runs the command as background / foreground
+-> externalProcessess.c defines how to run the external processes, with interrupt handler to mark background process end
+-> the tilde.c provides basic functions to convert between ~ and absolute value in a path
+-> makefile compiles everything & produces the executable: Pshell
+
+
+----most builtins verify corrent number of arguments and flags are provided
+----ls (ll, la) allows multiple arguments, and accordingly lists content of all the directories provided
+----commands like rm, man which aren't defined as builtin can be executed as foreground processes
